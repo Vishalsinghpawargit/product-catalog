@@ -9,12 +9,12 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function all()
     {
-        return Category::with('parent:id,name')->get();
+        return Category::select('id', 'parent_id', 'name')->with('parent:id,name')->get();
     }
 
-    public function find($id)
+    public function find($slug)
     {
-        return Category::find($id);
+        return Category::findBySlug($slug);
     }
 
     public function create($data)
@@ -22,13 +22,13 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::create($data);
     }
 
-    public function update($data, $id)
+    public function update($data, $slug)
     {
-        return Category::find($id)->update($data);
+        return Category::findBySlug($slug)->update($data);
     }
 
-    public function delete($id)
+    public function delete($slug)
     {
-        return Category::find($id)->delete();
+        return Category::findBySlug($slug)->delete();
     }
 }
