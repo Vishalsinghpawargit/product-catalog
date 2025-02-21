@@ -3,10 +3,19 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+    protected $categoryRepository;
+
+    public function __construct(CategoryRepositoryInterface $cateogryRepository)
+    {
+        $this->categoryRepository = $cateogryRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
