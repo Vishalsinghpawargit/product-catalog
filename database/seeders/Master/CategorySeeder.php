@@ -13,6 +13,8 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        Category::truncate();
+
         $categories = [
             ['name' => 'Food'],
             ['name' => 'Drink' , 'parent_id' => 1],
