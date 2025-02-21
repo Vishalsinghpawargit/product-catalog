@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class CategoryController extends ApiController
 {
 
     protected $categoryRepository;
@@ -21,7 +21,19 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        try {
+
+            $categories = $this->categoryRepository->all();
+
+            if($categories->isEmpty()) {
+                return $this->respondWithNotFound('No categories found');
+            }
+
+            return $this->respondeWithSuccess($categories);
+            
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
