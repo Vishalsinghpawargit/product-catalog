@@ -22,12 +22,12 @@ trait APIResponse
 
     public function respondeWithError($message, $code = self::HTTP_INTERNAL_SERVER_ERROR)
     {
-        return response()->json(['message' => $message], $code);
+        return response()->json(['message' => $message , 'code' => $code], $code);
     }
 
     public function respondWithNotFound($message = 'Not Found')
     {
-        return $this->repondeWithError($message, self::HTTP_NOT_FOUND);
+        return $this->respondeWithError($message, self::HTTP_NOT_FOUND);
     }
 
     public function respondWithCreated($data)

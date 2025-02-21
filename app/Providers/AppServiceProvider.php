@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\Category\CategoryRepository;
-use CategoryRepositoryInterface;
+use App\Repositories\Category\CategoryRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
