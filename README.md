@@ -15,7 +15,7 @@ Ensure you have the following installed:
 
 ### **1. Clone the Repository**
 ```sh
-git clone https://github.com/your-username/your-repo.git
+git clone with ssh or http
 cd your-repo
 ```
 
