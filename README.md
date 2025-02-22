@@ -1,7 +1,5 @@
 # Project Setup Guide
 
-## 🚀 Installation Steps
-
 ## 📌 Requirements
 Ensure you have the following installed:
 - PHP `8.3`
@@ -12,6 +10,8 @@ Ensure you have the following installed:
 - Git
 
 ---
+
+## 🚀 Installation Steps
 
 ### **1. Clone the Repository**
 ```sh
