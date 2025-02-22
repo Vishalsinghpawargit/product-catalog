@@ -2,6 +2,17 @@
 
 ## 🚀 Installation Steps
 
+## 📌 Requirements
+Ensure you have the following installed:
+- PHP `8.3`
+- Composer `2`
+- MySQL / PostgreSQL / SQLite (as per your setup)
+- Laravel `11`
+- Node.js & NPM (if using frontend assets)
+- Git
+
+---
+
 ### **1. Clone the Repository**
 ```sh
 git clone https://github.com/your-username/your-repo.git
@@ -45,17 +56,6 @@ This ensures the database is freshly migrated and seeded with initial data.
 php artisan serve
 ```
 Your Laravel application will now be available at `http://127.0.0.1:8000`.
-
----
-
-## 📌 Requirements
-Ensure you have the following installed:
-- PHP `8.3`
-- Composer `2`
-- MySQL / PostgreSQL / SQLite (as per your setup)
-- Laravel `11`
-- Node.js & NPM (if using frontend assets)
-- Git
 
 ---
 
