@@ -24,9 +24,29 @@ trait APIResponse
         return response()->json($data, $code);
     }
 
-    public function respondeWithError($message, $error ,  $code = self::HTTP_INTERNAL_SERVER_ERROR)
+    public function respondeWithError($message, $code = self::HTTP_INTERNAL_SERVER_ERROR , null|string|Throwable $error = null , array $errorData = [])
     {
-        Log::error([$error->getMessage(), $error->getFile()]);
+        // Check if an error was provided
+        if ($error !== null) {
+            if ($error instanceof Throwable) {
+                // Extract detailed information if it's a Throwable
+                $errorData['details'] = [
+                    'error_message' => $error->getMessage(),
+                    'file' => $error->getFile(),
+                    'line' => $error->getLine(),
+                    'trace' => $error->getTraceAsString(),
+                ];
+            } else {
+                // Treat it as a simple string message if not Throwable
+                $errorData['details'] = [
+                    'error_message' => $error,
+                ];
+            }
+        }
+
+        // Log the structured error data
+        Log::error('Internal Error Occurred', $errorData);
+
         return response()->json(['message' => $message , 'code' => $code], $code);
     }
 

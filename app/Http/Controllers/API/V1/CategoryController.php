@@ -33,7 +33,7 @@ class CategoryController extends ApiController
             return $this->dataResponse(CategoryListResource::collection($categories));
             
         } catch (\Exception $e) {
-            return $this->respondeWithError('something went wrong' , $e);
+            return $this->respondeWithError('something went wrong' , self::HTTP_INTERNAL_SERVER_ERROR ,$e);
         }
     }
 

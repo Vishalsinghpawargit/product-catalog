@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filters\Activity;
+namespace App\Filters;
 
 use Carbon\Carbon;
 use Kblais\QueryFilter\QueryFilter;
