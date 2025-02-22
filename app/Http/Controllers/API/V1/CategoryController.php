@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\V1\CategoryListResource;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -29,10 +30,10 @@ class CategoryController extends ApiController
                 return $this->respondWithNotFound('No categories found');
             }
 
-            return $this->respondeWithSuccess($categories);
+            return $this->dataResponse(CategoryListResource::collection($categories));
             
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+            return $this->respondeWithError('something went wrong' , $e);
         }
     }
 

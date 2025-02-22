@@ -7,6 +7,7 @@ use Throwable;
 
 trait APIResponse
 {
+    protected array $additionalData = [];
 
     CONST HTTP_OK = 200;
     CONST HTTP_CREATED = 201;
@@ -20,8 +21,9 @@ trait APIResponse
         return response()->json($data, $code);
     }
 
-    public function respondeWithError($message, $code = self::HTTP_INTERNAL_SERVER_ERROR)
+    public function respondeWithError($message, $error ,  $code = self::HTTP_INTERNAL_SERVER_ERROR)
     {
+        \Log::error([$error->getMessage(), $error->getFile()]);
         return response()->json(['message' => $message , 'code' => $code], $code);
     }
 
@@ -33,6 +35,31 @@ trait APIResponse
     public function respondWithCreated($data)
     {
         return $this->respondeWithSuccess($data, self::HTTP_CREATED);
+    }
+
+    public function dataResponse($data, $headers = [])
+    {
+        return $this->setStatusCode(self::HTTP_OK)->apiResponse(array_merge([
+            'code' => self::HTTP_OK,
+            'data' => $data,
+        ], $this->additionalData), $headers);
+    }
+
+    public function apiResponse($data, $headers = [])
+    {
+        return response()->json($data, $this->getStatusCode(), $headers);
+    }
+
+    public function setStatusCode($code = self::HTTP_OK)
+    {
+        $this->statusCode = $code;
+
+        return $this;
+    }
+
+    public function getStatusCode()
+    {
+        return $this->statusCode;
     }
 
 }
