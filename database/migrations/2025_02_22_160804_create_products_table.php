@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->text('description')->nullable();
-            $table->integer('sku');
+            $table->string('sku');
             $table->decimal('price', 10, 2);
             $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();   

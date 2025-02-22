@@ -21,7 +21,10 @@ trait APIResponse
 
     public function respondeWithSuccess($data, $code = self::HTTP_OK)
     {
-        return response()->json($data, $code);
+        return response()->json([
+            'data' => $data, 
+            'code' => $code
+        ], $code);
     }
 
     public function respondeWithError($message, $code = self::HTTP_INTERNAL_SERVER_ERROR , null|string|Throwable $error = null , array $errorData = [])
@@ -83,6 +86,21 @@ trait APIResponse
     public function getStatusCode()
     {
         return $this->statusCode;
+    }
+
+    public function paginatedDataResponse($data, ?string $resource = null, $headers = [])
+    {
+        $pagination = $this->generatePagination($data);
+
+        // If a resource class is provided, transform the data using the resource
+        if ($resource) {
+            $data = $resource::collection($data);
+        }
+
+        return $this->setStatusCode(self::HTTP_OK)->apiResponse(array_merge([
+            'code' => self::HTTP_OK,
+            'data' => $data,
+        ], $pagination, $this->additionalData), $headers);
     }
 
 }

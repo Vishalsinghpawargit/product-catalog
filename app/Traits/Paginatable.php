@@ -11,7 +11,7 @@ trait Paginatable
      *
      * @return mixed
      */
-    protected function applyDynamicPagination($query, $request, bool $paginated = true, int $limit = 20)
+    protected function applyDynamicPagination($query, $request, bool $paginated = true, int $limit = 10)
     {
         $limit = $request->query('limit', $limit); // Default to 20 items per page
         $paginated = $request->query('paginated', $paginated); // No pagination default

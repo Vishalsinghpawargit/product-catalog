@@ -15,7 +15,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function find($slug)
     {
-        return Product::findBySlug($slug);
+        return Product::findBySlug($slug)?->with('category:id,name')->first();
     }
 
     public function create($data)
@@ -25,7 +25,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function update($data, $slug)
     {
-        return Product::findBySlug($slug)->update($data);
+        return Product::findBySlug($slug)?->update($data);
     }
 
     public function delete($slug)

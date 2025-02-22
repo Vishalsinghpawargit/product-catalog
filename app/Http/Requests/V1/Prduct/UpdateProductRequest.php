@@ -11,7 +11,7 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,26 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'price' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
+            'sku' => 'required|string',
+        ];
+    }
+
+    public function message(){
+        return [
+            'name.required' => 'Name is required',
+            'name.string' => 'Name must be a string',
+            'name.max' => 'Name must not exceed 255 characters',
+            'description.string' => 'Description must be a string',
+            'description.max' => 'Description must not exceed 255 characters',
+            'price.required' => 'Price is required',
+            'price.numeric' => 'Price must be a number',
+            'category_id.required' => 'Category is required',
+            'category_id.exists' => 'Category does not exist',
+            'sku.required' => 'SKU is required',
         ];
     }
 }
