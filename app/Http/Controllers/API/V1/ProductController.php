@@ -2,17 +2,32 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProductController extends ApiController
 {
+    protected  $product, $filter;
+
+
+    public function __construct(ProductRepositoryInterface $product,  $filter)
+    {
+        $this->product = $product;
+        $this->filter = $filter;
+    }
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        try{
+            //
+        } catch (\Exception $e) {
+            return $this->respondeWithError('something went wrong' , $e);
+        }
     }
 
     /**
@@ -20,7 +35,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            //
+        } catch (\Exception $e) {
+            return $this->respondeWithError('something went wrong' , $e);
+        }
     }
 
     /**
@@ -28,7 +47,11 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try{
+            //
+        } catch (\Exception $e) {
+            return $this->respondeWithError('something went wrong' , $e);
+        }
     }
 
     /**
@@ -36,7 +59,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+            //
+        } catch (\Exception $e) {
+            return $this->respondeWithError('something went wrong' , $e);
+        }
     }
 
     /**
@@ -44,6 +71,10 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+            //
+        } catch (\Exception $e) {
+            return $this->respondeWithError('something went wrong' , $e);
+        }
     }
 }

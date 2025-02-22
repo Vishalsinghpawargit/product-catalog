@@ -7,6 +7,9 @@ use Throwable;
 
 trait APIResponse
 {
+
+    use Paginatable;
+
     protected array $additionalData = [];
 
     CONST HTTP_OK = 200;
