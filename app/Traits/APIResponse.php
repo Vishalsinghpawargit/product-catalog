@@ -23,7 +23,7 @@ trait APIResponse
 
     public function respondeWithError($message, $error ,  $code = self::HTTP_INTERNAL_SERVER_ERROR)
     {
-        \Log::error([$error->getMessage(), $error->getFile()]);
+        Log::error([$error->getMessage(), $error->getFile()]);
         return response()->json(['message' => $message , 'code' => $code], $code);
     }
 
