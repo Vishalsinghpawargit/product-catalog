@@ -5,10 +5,12 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\V1\CategoryListResource;
 use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Traits\CacheHelper;
 use Illuminate\Http\Request;
 
 class CategoryController extends ApiController
 {
+    use CacheHelper;
 
     protected $categoryRepository;
 
@@ -24,7 +26,11 @@ class CategoryController extends ApiController
     {
         try {
 
-            $categories = $this->categoryRepository->all();
+            $cacheKey = "categories_all";
+
+            $categories = $this->cacheData($cacheKey, 60,function () {
+                return $this->categoryRepository->all();
+            });
 
             if($categories->isEmpty()) {
                 return $this->respondWithNotFound('No categories found');

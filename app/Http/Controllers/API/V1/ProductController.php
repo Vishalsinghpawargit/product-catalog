@@ -11,12 +11,15 @@ use App\Http\Resources\V1\Product\ProductDetailResource;
 use App\Http\Resources\V1\Product\ProductListResource;
 use App\Models\Product;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Traits\CacheHelper;
 use Illuminate\Http\Request;
 
 class ProductController extends ApiController
 {
-    protected  $product, $filter , $produtcInterface;
 
+    use CacheHelper;
+
+    protected  $product, $filter , $produtcInterface;
 
     public function __construct(Product $product, ProductFilter $filter , ProductRepositoryInterface $produtcInterface)
     {
@@ -37,18 +40,22 @@ class ProductController extends ApiController
             $orderBy = $request->orderBy ?? 'updated_at';
             $sortBy = $request->sortBy ?? 'desc';
 
-            $query = $this->product->filter($this->filter);
+            $cacheKey = "products_{$limit}_{$orderBy}_{$sortBy}_" . md5(json_encode($request->all()));
 
-            $products = $this->applyDynamicPagination(
-                (clone $query)
-                ->select('id', 'name', 'slug', 'price', 'description', 'category_id' )
-                ->with('category:id,name')
-                ->filter($this->filter)
-                ->orderBy($orderBy, $sortBy),
-                $request,
-                true,
-                $limit
-            );
+            $products = $this->cacheData($cacheKey, 60 ,function () use ($request, $limit, $orderBy, $sortBy) {
+                $query = $this->product->filter($this->filter);
+
+                return $this->applyDynamicPagination(
+                    (clone $query)
+                    ->select('id', 'name', 'slug', 'price', 'description', 'category_id')
+                    ->with('category:id,name')
+                    ->filter($this->filter)
+                    ->orderBy($orderBy, $sortBy),
+                    $request,
+                    true,
+                    $limit
+                );
+            });
 
             if($products->isEmpty()) {
                 return $this->respondWithNotFound('No products found');
@@ -73,6 +80,8 @@ class ProductController extends ApiController
             $data = $request->validated();
 
             $product = $this->produtcInterface->create($data);
+
+            $this->clearCache('products');
 
             return $this->respondeWithSuccess($product, self::HTTP_CREATED);
 
@@ -118,6 +127,8 @@ class ProductController extends ApiController
 
             $product = $this->produtcInterface->update($data , $slug);
 
+            $this->clearCache('products');
+
             return $this->respondeWithSuccess([
                 'message' => 'product Update successfully!',
                 'code' => self::HTTP_OK,
@@ -142,6 +153,8 @@ class ProductController extends ApiController
             }
 
             $this->produtcInterface->delete($slug);
+
+            $this->clearCache('products');
 
             return $this->respondeWithSuccess([
                 'message' => 'product deleted successfully!',
