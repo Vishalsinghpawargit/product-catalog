@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\V1\Category\StoreCategoryReqeust;
 use App\Http\Resources\V1\CategoryListResource;
+use App\Models\Category;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Traits\CacheHelper;
 use Illuminate\Http\Request;
@@ -46,9 +48,17 @@ class CategoryController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCategoryReqeust $request)
     {
-        //
+       try{
+
+            $data = Category::create($request->validated());
+
+            return $this->respondWithCreated($data);
+
+        } catch (\Exception $e) {
+            return $this->respondeWithError('something went wrong' , self::HTTP_INTERNAL_SERVER_ERROR ,$e);
+        }
     }
 
     /**
