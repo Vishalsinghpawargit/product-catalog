@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Traits\RecursiveModel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 class Category extends Model
 {
-    use RecursiveModel , HasSlug;
+    use RecursiveModel , HasSlug , HasFactory;
 
     protected $guarded = ['id'];
 

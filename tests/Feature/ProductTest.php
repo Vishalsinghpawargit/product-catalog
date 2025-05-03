@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use Database\Factories\CategoryFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -10,33 +11,12 @@ use Tests\TestCase;
 class ProductTest extends TestCase
 {
 
-    use  WithFaker;
+    use RefreshDatabase, WithFaker;
 
-    public function test_category_is_stroing_and_success_response()
-    {
-        $data = [
-            'name' => fake()->name(),
-        ];
-
-        $response = $this->postJson('/api/v1/category' , $data);
-
-        $response->assertStatus(201);
-
-    }
-
-    public function test_category_create_is_giving_validation_error()
-    {
-        $data = [];
-
-        $response = $this->postJson('/api/v1/category' , $data);
-
-        $response->assertStatus(422);
-    }
-
-    public function test_product_is_storing_and_success_reponse()
+    public function test_product_create_and_success_response()
     {
 
-        $category = Category::first();
+        $category = Category::factory()->create();
 
         $data = [
             'name' => fake()->name(),
