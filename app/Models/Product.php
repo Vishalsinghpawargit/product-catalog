@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kblais\QueryFilter\Filterable;
@@ -10,7 +11,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class Product extends Model
 {
-    use SoftDeletes , Filterable , HasSlug;
+    use SoftDeletes , Filterable , HasSlug , HasFactory;
 
     protected $guarded = ['id'];
 
